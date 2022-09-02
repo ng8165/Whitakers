@@ -19,7 +19,7 @@ form.addEventListener("submit", (e) => {
     const mode = latin.checked ? "latin" : "english";
     const query = input.value;
 
-    fetch(`http://localhost:3000/?mode=${mode}&query=${query}`)
+    fetch(`http://whitakers.herokuapp.com/?mode=${mode}&query=${query}`)
         .then((response) => response.json())
         .then((data) => {
             result.style.display = "block";
