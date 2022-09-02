@@ -32,4 +32,5 @@ pre {
     display: none;
     border: 1px solid black;
     border-radius: 10px;
+    white-space: pre-wrap;
 }
