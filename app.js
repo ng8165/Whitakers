@@ -3,7 +3,7 @@ const https = require("https");
 const cors = require("cors");
 
 const app = express();
-app.use(cors({origin: "https://whitakers.netlify.app/"}));
+app.use(cors({origin: ["https://whitakers.netlify.app", "http://localhost:8888"]}));
 
 app.get("/", (req, res) => {
     https.get(`https://archives.nd.edu/cgi-bin/wordz.pl?${req.query.mode === "latin" ? "keyword" : "english"}=${req.query.query}`, (httpsRes) => {
