@@ -19,13 +19,20 @@ form.addEventListener("submit", (e) => {
     const mode = latin.checked ? "latin" : "english";
     const query = input.value;
 
-    fetch(`/api/?mode=${mode}&query=${query}`)
+    fetch(`/api/${mode}/${query}`)
         .then((response) => response.json())
         .then((data) => {
-            result.style.display = "block";
-            result.textContent = data.result;
-            if (result.textContent.length === 0)
-                result.textContent = "ERROR";
+            if (data.result.length === 0) {
+                alert("Error: please try again.");
+                console.log("ERROR: result was length 0");
+            } else {
+                result.style.display = "block";
+                result.textContent = data.result;
+            }
+        })
+        .catch((error) => {
+            alert("Error: please try again.");
+            console.log(error);
         });
 });
 
