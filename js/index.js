@@ -5,11 +5,11 @@ const input = document.getElementById("word");
 const form = document.querySelector("form");
 const result = document.querySelector("pre");
 
-latin.addEventListener("click", (e) => {
+latin.addEventListener("click", () => {
     label.textContent = "Enter a Latin word...";
 });
 
-english.addEventListener("click", (e) => {
+english.addEventListener("click", () => {
     label.textContent = "Enter an English word...";
 });
 
@@ -21,18 +21,17 @@ form.addEventListener("submit", (e) => {
 
     fetch(`/api/${mode}/${query}`)
         .then((response) => response.json())
-        .then((data) => {
-            if (data.result.length === 0) {
-                alert("Error: please try again.");
-                console.log("ERROR: result was length 0");
+        .then(({status, message}) => {
+            if (status === "error") {
+                throw new Error(message);
             } else {
                 result.style.display = "block";
-                result.textContent = data.result;
+                result.textContent = message;
             }
         })
-        .catch((error) => {
-            alert("Error: please try again.");
-            console.log(error);
+        .catch((err) => {
+            console.error("Client-side fetch to API failed");
+            alert(`ERROR: ${err.message}`);
         });
 });
 
