@@ -13,6 +13,8 @@ export default function Home() {
         fetch(`/api/${isLatin ? "latin" : "english"}/${text}`)
             .then((res) => res.json())
             .then(({status, message}) => {
+                setText("");
+                
                 if (status === "error") {
                     throw new Error(message);
                 } else {
