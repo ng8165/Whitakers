@@ -1,11 +1,13 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, FloatingLabel, Button } from "react-bootstrap";
+import { useRouter } from "next/router";
 
 export default function Home() {
     const [ isLatin, setMode ] = useState(true);
     const [ text, setText ] = useState("");
     const [ def, setDef ] = useState("");
+    const router = useRouter();
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -26,6 +28,19 @@ export default function Home() {
                 alert(`ERROR: ${err.message}`);
             });
     }
+
+    useEffect(() => {
+        let redirect = localStorage.getItem("redirect");
+
+        if (redirect == null) {
+            redirect = confirm("This website is now deprecated and will not work. Do you want to be redirected to latin-words.com in the future?").toString();
+            localStorage.setItem("redirect", redirect);
+        }
+
+        if (redirect === "true") {
+            router.replace("https://latin-words.com");
+        }
+    });
 
     return (
         <>
