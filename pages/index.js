@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import { Form, FloatingLabel, Button } from "react-bootstrap";
+import { Form, FloatingLabel, Button, Spinner } from "react-bootstrap";
 import { useRouter } from "next/router";
 
 export default function Home() {
@@ -29,6 +29,8 @@ export default function Home() {
             });
     }
 
+    const [ redirect, setRedirect ] = useState(false);
+
     useEffect(() => {
         let redirect = localStorage.getItem("redirect");
 
@@ -38,15 +40,28 @@ export default function Home() {
         }
 
         if (redirect === "true") {
+            setRedirect(true);
             router.replace("https://latin-words.com");
         }
-    });
+    }, []);
+
+    function LoadingOverlay() {
+        return (
+            <div className="position-fixed" style={{ background: "rgba(0, 0, 0, 0.3)", inset: 0, zIndex: 10 }}>
+                <div className="position-absolute top-50 start-50 translate-middle">
+                    <Spinner animation="border" style={{ width: "5rem", height: "5rem" }} />
+                </div>
+            </div>
+        );
+    }
 
     return (
         <>
             <Head>
                 <title>Nelson&apos;s Words</title>
             </Head>
+
+            {redirect && <LoadingOverlay />}
 
             <h1 className="mb-0">Nelson&apos;s Words</h1>
             <em>aka Whitaker&apos;s Words</em>
